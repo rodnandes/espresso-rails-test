@@ -50,6 +50,9 @@ group :development, :test do
 
   # Use rspec-rails for testing
   gem 'rspec-rails', '~> 5.1', '>= 5.1.2'
+
+  # Use factory_bot for test factories
+  gem 'factory_bot_rails', '~> 6.4', '>= 6.4.3'
 end
 
 group :development do
