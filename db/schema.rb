@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_08_19_010243) do
+ActiveRecord::Schema.define(version: 2024_08_19_010923) do
 
   create_table "cards", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb3", force: :cascade do |t|
     t.string "last4", limit: 4
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 2024_08_19_010243) do
     t.datetime "performed_at"
     t.decimal "cost", precision: 10, scale: 2
     t.string "merchant"
-    t.integer "transaction_id"
+    t.string "transaction_id"
     t.bigint "category_id"
     t.bigint "user_id"
     t.datetime "created_at", null: false
