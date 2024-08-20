@@ -6,4 +6,5 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get 'despesas', to: 'statements#index'
   get 'funcionarios', to: 'employees#index'
+  get 'cartoes', to: 'cards#index'
 end

@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :card do
-    last4 { 'Cartão Teste' }
+    last4 { '1234' }
     user { nil }
   end
 end
