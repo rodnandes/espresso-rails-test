@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   get 'despesas', to: 'statements#index'
   get 'funcionarios', to: 'employees#index'
   get 'cartoes', to: 'cards#index'
+  get 'categorias', to: 'categories#index'
 end
