@@ -13,7 +13,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Divider from "@mui/material/Divider";
 import CreditCardIcon from "@mui/icons-material/CreditCardOutlined";
 import AddIcon from "@mui/icons-material/Add";
-import CardsDialog from "./CardsDialog";
+import CardDialog from "./CardDialog";
 
 const CardsPage = ({menu, cards}) => {
 
@@ -61,7 +61,7 @@ const CardsPage = ({menu, cards}) => {
           </Box>
           <CardsList cards={cards}/>
         </Box>
-        <CardsDialog currentCard={currentCard} modalOpen={modalOpen} handleCloseModal={handleCloseModal}/>
+        <CardDialog currentCard={currentCard} modalOpen={modalOpen} handleCloseModal={handleCloseModal}/>
       </Container>
     </Layout>
   )

@@ -9,7 +9,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function CardsDialog({currentCard, modalOpen, handleCloseModal}) {
+export default function CardDialog({currentCard, modalOpen, handleCloseModal}) {
 
   const [last4Digits, setLast4Digits] = useState('');
   const [cardUser, setCardUser] = useState('');
