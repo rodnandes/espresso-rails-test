@@ -33,7 +33,7 @@ const CardsPage = ({menu, cards}) => {
   function CardsList({cards}) {
     return (
       <List>
-        {cards.map((card) => (
+        {cards?.map((card) => (
           <React.Fragment key={card.id}>
             <ListItem secondaryAction={<Button variant="outlined" onClick={(e) => handleOpenModal(e, card.id)}
                                                endIcon={<EditIcon/>}>Editar</Button>}>

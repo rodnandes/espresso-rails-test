@@ -29,7 +29,7 @@ const CategoriesPage = ({menu, categories}) => {
   function CategoriesList({categories}) {
     return (
       <List>
-        {categories.map((category) => (
+        {categories?.map((category) => (
           <React.Fragment key={category.id}>
             <ListItem>
               <ListItemAvatar>

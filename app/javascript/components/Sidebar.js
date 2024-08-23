@@ -12,6 +12,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import CreditCardIcon from "@mui/icons-material/CreditCardOutlined";
 import PersonIcon from "@mui/icons-material/Person";
 import ReceiptIcon from "@mui/icons-material/Receipt";
+import {Link} from "react-router-dom";
 
 export default function Sidebar ({ currentMenu, drawerWidth }) {
 
@@ -27,7 +28,7 @@ export default function Sidebar ({ currentMenu, drawerWidth }) {
     return <List>
       {Object.keys(MENU_ITEMS).map((itemKey) => (
         <ListItem key={itemKey} disablePadding>
-          <ListItemButton href={`/${itemKey}`} selected={itemKey === currentMenu}>
+          <ListItemButton selected={itemKey === currentMenu} component={Link} to={`/${itemKey}`}>
             <ListItemIcon>
               {MENU_ITEMS[itemKey].icon}
             </ListItemIcon>

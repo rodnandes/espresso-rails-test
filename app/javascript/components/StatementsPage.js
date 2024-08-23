@@ -103,7 +103,7 @@ export default function StatementsPage(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.statements.map((statement) => (
+            {props.statements?.map((statement) => (
               <TableRow
                 key={statement.id}
                 sx={{'&:last-child td, &:last-child th': {border: 0}}}
@@ -126,7 +126,7 @@ export default function StatementsPage(props) {
       <TablePagination
         rowsPerPageOptions={[3, 5, 10]}
         component="div"
-        count={props.statements.length}
+        count={props.statements?.length}
         rowsPerPage={3}
         page={1}
         onPageChange={handleChangePage}
@@ -143,7 +143,6 @@ export default function StatementsPage(props) {
           <TableTabs />
         </Box>
       </Container>
-
     </Layout>
   )
 }

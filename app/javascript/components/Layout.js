@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Sidebar from "./Sidebar";
+import {Outlet} from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -22,7 +23,7 @@ export default function Layout(props) {
       <Sidebar currentMenu={props.currentMenu} drawerWidth={drawerWidth} />
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Toolbar />
-        {props.children}
+        {props.children || <Outlet />}
       </Box>
     </Box>
   );

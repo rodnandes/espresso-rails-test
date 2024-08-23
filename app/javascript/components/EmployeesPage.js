@@ -32,7 +32,7 @@ const EmployeesPage = ({menu, employees}) => {
   function EmployeesList({employees}) {
     return (
       <List>
-        {employees.map((employee) => (
+        {employees?.map((employee) => (
           <React.Fragment key={employee.id}>
             <ListItem secondaryAction={<Button variant="outlined" onClick={(e) => handleOpenModal(e, employee.id)}
                                                endIcon={<EditIcon/>}>Editar</Button>}>
