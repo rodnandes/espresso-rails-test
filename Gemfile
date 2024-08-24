@@ -77,6 +77,9 @@ end
 group :test do
   # Use simplecov to track test coverage
   gem 'simplecov', '~> 0.22.0', require: false
+
+  # Use shoulda-matchers for clean specs
+  gem 'shoulda-matchers', '~> 5.3'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
