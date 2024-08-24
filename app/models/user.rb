@@ -7,12 +7,20 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   enum role: [:employee, :admin]
-
   belongs_to :company
+  validates_presence_of :company
   accepts_nested_attributes_for :company
 
-  def admin?
-    user.role == :admin
+  def company_attributes=(company_attributes)
+    self.company = Company.find_by(cnpj: company_attributes[:cnpj])
+    self.role = :admin
+
+    if company.nil?
+      self.build_company(company_attributes)
+    end
   end
 
+  def admin?
+    self.role == 'admin'
+  end
 end
