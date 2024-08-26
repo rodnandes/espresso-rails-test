@@ -1,5 +1,5 @@
 class EmployeesController < ApplicationController
   def index
-    @employees = User.all
+    @employees = current_user.company.users
   end
 end

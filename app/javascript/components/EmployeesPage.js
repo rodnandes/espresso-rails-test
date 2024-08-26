@@ -1,4 +1,4 @@
-import React from "react"
+import React, {useEffect} from "react"
 import PropTypes from "prop-types"
 import Layout from "./Layout";
 import Container from "@mui/material/Container";
@@ -15,10 +15,11 @@ import Avatar from "@mui/material/Avatar";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import EmployeeDialog from "./EmployeeDialog";
 
-const EmployeesPage = ({menu, employees}) => {
+const EmployeesPage = ({menu, employees: employees_data}) => {
 
   const [modalOpen, setmodalOpen] = React.useState(false);
   const [currentEmployee, setCurrentEmployee] = React.useState({});
+  const [employees, setEmployees] = React.useState(employees_data);
 
   const handleOpenModal = (_event, employeeId) => {
     setCurrentEmployee(employees.find(employee => employee.id === employeeId));
@@ -28,6 +29,22 @@ const EmployeesPage = ({menu, employees}) => {
   const handleCloseModal = () => {
     setmodalOpen(false);
   };
+
+  const loadEmployees = async () => {
+    const response = await fetch('/api/v1/employees.json')
+
+    if (!response.ok) {
+      const message = `An error has occurred: ${response.status}`;
+      throw new Error(message);
+    }
+
+    const employees_data = await response.json();
+    setEmployees(employees_data)
+  }
+
+  useEffect(() => {
+    loadEmployees();
+  }, []);
 
   function EmployeesList({employees}) {
     return (

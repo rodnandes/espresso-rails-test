@@ -8,4 +8,10 @@ Rails.application.routes.draw do
   get 'funcionarios', to: 'employees#index'
   get 'cartoes', to: 'cards#index'
   get 'categorias', to: 'categories#index'
+
+  namespace :api do
+    namespace :v1 do
+      resources :employees
+    end
+  end
 end
