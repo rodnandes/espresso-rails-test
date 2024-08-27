@@ -11,6 +11,8 @@ class User < ApplicationRecord
   validates_presence_of :company
   accepts_nested_attributes_for :company
 
+  after_create :send_password
+
   def company_attributes=(company_attributes)
     self.company = Company.find_by(cnpj: company_attributes[:cnpj])
     self.role = :admin
@@ -23,4 +25,19 @@ class User < ApplicationRecord
   def admin?
     self.role == 'admin'
   end
+
+  def password_required?
+    return false if new_record? && !self.admin?
+
+    super
+  end
+
+  def send_password
+    return if self.admin?
+
+    pass = SecureRandom.hex(6)
+    update(password: pass)
+    UserMailer.send_password(self, pass).deliver_now
+  end
+
 end
