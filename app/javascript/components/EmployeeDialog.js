@@ -26,11 +26,15 @@ export default function EmployeeDialog({currentEmployee, modalOpen, handleCloseM
 
   function handleSubmit(event) {
     event.preventDefault();
-    saveEmployee(currentEmployee?.id);
+    if(currentEmployee?.id) {
+      editEmployee(currentEmployee.id).then(data => console.log(data));
+    } else {
+      createEmployee().then(data => console.log(data));
+    }
     handleCloseModal();
   }
 
-  const saveEmployee = async (id) => {
+  const editEmployee = async (id) => {
     if (!id) return;
 
     const response = await fetch(`/api/v1/employees/${id}.json`, {
@@ -41,6 +45,22 @@ export default function EmployeeDialog({currentEmployee, modalOpen, handleCloseM
         "X-CSRF-Token": csrf_token
       },
     });
+
+    return await response.json();
+  }
+
+
+  const createEmployee = async () => {
+    const response = await fetch(`/api/v1/employees`, {
+      method: "POST",
+      body: JSON.stringify({user: {name, email}}),
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrf_token
+      },
+    });
+
+    return await response.json();
   }
 
   return (

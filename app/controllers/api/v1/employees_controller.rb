@@ -15,7 +15,7 @@ class Api::V1::EmployeesController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params.merge(company: current_user.company))
 
     if @user.save
       render :show, status: :created
