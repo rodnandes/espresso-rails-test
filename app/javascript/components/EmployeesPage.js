@@ -39,12 +39,15 @@ const EmployeesPage = ({menu, employees: employees_data}) => {
     }
 
     const employees_data = await response.json();
-    setEmployees(employees_data)
+
+    return employees_data;
   }
 
   useEffect(() => {
-    loadEmployees();
-  }, []);
+    if (!modalOpen) {
+      loadEmployees().then(data => setEmployees(data));
+    }
+  }, [modalOpen]);
 
   function EmployeesList({employees}) {
     return (
@@ -56,7 +59,7 @@ const EmployeesPage = ({menu, employees: employees_data}) => {
               <ListItemAvatar>
                 <Avatar>RF</Avatar>
               </ListItemAvatar>
-              <ListItemText primary="Employee item" secondary={employee.email}/>
+              <ListItemText primary={employee.name} secondary={employee.email}/>
             </ListItem>
             <Divider/>
           </React.Fragment>

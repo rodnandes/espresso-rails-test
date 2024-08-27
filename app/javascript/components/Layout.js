@@ -16,7 +16,7 @@ const drawerWidth = 240;
 
 export default function Layout(props) {
 
-  const currentUser = useContext(UserContext)
+  const { currentUser } = useContext(UserContext)
 
   function NameInitials() {
     const [firstName, lastName] = currentUser?.name?.split(' ') || [''];

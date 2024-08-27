@@ -9,7 +9,7 @@ export const UserContext = createContext();
 
 export default function AppRouter(props) {
   return (
-    <UserContext.Provider value={props.currentUser}>
+    <UserContext.Provider value={{ currentUser: props.currentUser, csrf_token: props.csrf_token}}>
       <BrowserRouter>
         <Routes>
           <Route path="/despesas" element={<StatementsPage menu={props.page} statements={props.statements}/>}/>

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react"
+import React, {useContext, useEffect, useState} from "react"
 import PropTypes from "prop-types"
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -9,12 +9,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
+import {UserContext} from "./AppRouter";
 
 
 export default function EmployeeDialog({currentEmployee, modalOpen, handleCloseModal}) {
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+
+  const { csrf_token } = useContext(UserContext)
 
   useEffect(() => {
     setName(currentEmployee?.name || '');
@@ -23,9 +26,21 @@ export default function EmployeeDialog({currentEmployee, modalOpen, handleCloseM
 
   function handleSubmit(event) {
     event.preventDefault();
-    console.log(name);
-    console.log(email);
+    saveEmployee(currentEmployee?.id);
     handleCloseModal();
+  }
+
+  const saveEmployee = async (id) => {
+    if (!id) return;
+
+    const response = await fetch(`/api/v1/employees/${id}.json`, {
+      method: "PATCH",
+      body: JSON.stringify({user: {name, email}}),
+      headers: {
+        "Content-Type": "application/json",
+        "X-CSRF-Token": csrf_token
+      },
+    });
   }
 
   return (
