@@ -21,7 +21,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "has the correct html content" do
-      expect(html_content).to include("Olá, sua senha é: #{password}")
+      expect(html_content).to include("Olá, sua senha de acesso é: #{password}")
     end
   end
 
