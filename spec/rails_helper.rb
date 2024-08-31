@@ -71,6 +71,8 @@ RSpec.configure do |config|
   # Enable FactoryBot methods into specs
   config.include FactoryBot::Syntax::Methods
 
+  # Enable Devise test helpers into specs
+  config.include Devise::Test::IntegrationHelpers, type: :request
 end
 
 # Add should-matchers config

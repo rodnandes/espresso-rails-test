@@ -6,9 +6,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  enum role: [:employee, :admin]
+  enum role: { employee: 0, admin: 1 }
   belongs_to :company
-  validates_presence_of :company
   accepts_nested_attributes_for :company
 
   after_create :send_password
@@ -17,27 +16,26 @@ class User < ApplicationRecord
     self.company = Company.find_by(cnpj: company_attributes[:cnpj])
     self.role = :admin
 
-    if company.nil?
-      self.build_company(company_attributes)
-    end
+    return unless company.nil?
+
+    build_company(company_attributes)
   end
 
   def admin?
-    self.role == 'admin'
+    role == 'admin'
   end
 
   def password_required?
-    return false if new_record? && !self.admin?
+    return false if new_record? && !admin?
 
     super
   end
 
   def send_password
-    return if self.admin?
+    return if admin?
 
     pass = SecureRandom.hex(6)
     update(password: pass)
     UserMailer.send_password(self, pass).deliver_now
   end
-
 end

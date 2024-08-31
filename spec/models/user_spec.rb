@@ -4,6 +4,7 @@ require 'rails_helper'
 
 RSpec.describe User do
   subject(:user) { build(:user, company: company) }
+
   let(:company) { build(:company) }
 
   it { is_expected.to be_valid }
@@ -11,6 +12,7 @@ RSpec.describe User do
 
   context 'without a company' do
     let(:company) { nil }
+
     it { is_expected.not_to be_valid }
   end
 
@@ -26,6 +28,7 @@ RSpec.describe User do
 
     context 'when role is not explicitly set' do
       let(:role) { nil }
+
       it "can't be admin and must be default value" do
         expect(employee_user).not_to be_admin
         expect(employee_user.role).to eq(default_role)
