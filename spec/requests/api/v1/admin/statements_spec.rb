@@ -9,6 +9,8 @@ RSpec.describe 'Admin Statements' do
   let!(:statements) { create_list(:statement, 5, category: create(:category, company: company), user: user) }
   let!(:category) { create(:category, company: company) }
 
+  fields = %w[id merchant cost transaction_id performed_at created_at user category url]
+
   describe 'GET /api/v1/admin/statements' do
     context 'when authenticated user has role admin' do
       before do
@@ -22,7 +24,7 @@ RSpec.describe 'Admin Statements' do
 
       it 'renders a JSON reponse with correct statements data' do
         expected_data = statements.map do |statement|
-          formatted_statement(statement)
+          formatted_admin_statement(statement, fields)
         end
 
         expect(response.body).to eq(expected_data.to_json)
@@ -71,7 +73,7 @@ RSpec.describe 'Admin Statements' do
       end
 
       it 'renders a JSON reponse with correct statements data' do
-        expected_data = formatted_statement(statements.first)
+        expected_data = formatted_admin_statement(statements.first, fields)
 
         expect(response.body).to eq(expected_data.to_json)
       end
@@ -131,7 +133,7 @@ RSpec.describe 'Admin Statements' do
       end
 
       it 'renders a JSON reponse with correct statements data' do
-        expected_data = formatted_statement(statements.last)
+        expected_data = formatted_admin_statement(statements.last, fields)
 
         expect(response.body).to eq(expected_data.to_json)
       end
@@ -205,7 +207,7 @@ RSpec.describe 'Admin Statements' do
       end
 
       it 'renders a JSON reponse with updated statement' do
-        expected_data = formatted_statement(statements.last)
+        expected_data = formatted_admin_statement(statements.last, fields)
         expected_data['merchant'] = 'Teste 123'
 
         expect(response.body).to eq(expected_data.to_json)
