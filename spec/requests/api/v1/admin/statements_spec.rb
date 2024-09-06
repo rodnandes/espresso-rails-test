@@ -14,6 +14,7 @@ RSpec.describe 'Admin Statements' do
   describe 'GET /api/v1/admin/statements' do
     context 'when authenticated user has role admin' do
       before do
+        create_list(:statement, 3, user: create(:user, company: create(:company)), category: nil)
         sign_in admin
         get api_v1_admin_statements_url, as: :json
       end
@@ -139,20 +140,24 @@ RSpec.describe 'Admin Statements' do
       end
 
       it 'returns unsuccessful response status when invalid params' do
-        post api_v1_admin_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil, performed_at: nil } }
+        post api_v1_admin_statements_url, params: invalid_params, as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'renders a JSON reponse with invalid param message' do
-        post api_v1_admin_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil, performed_at: nil } }
+        post api_v1_admin_statements_url, params: invalid_params, as: :json
 
         expect(response.parsed_body['errors']).not_to be_empty
       end
 
       it 'does not creates a new Statement' do
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil } }
+
         expect do
-          post api_v1_admin_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+          post api_v1_admin_statements_url, params: invalid_params, as: :json
         end.not_to change(Statement, :count)
       end
     end

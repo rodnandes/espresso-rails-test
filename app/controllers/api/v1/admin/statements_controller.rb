@@ -7,7 +7,7 @@ module Api
         before_action :set_statement, only: %i[show update destroy]
 
         def index
-          @statements = Statement.all
+          @statements = current_user.company.statements
         end
 
         def show; end

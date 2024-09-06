@@ -10,9 +10,8 @@ RSpec.describe 'Statements' do
     create_list(:statement, 5, category: create(:category, company: company), user: employee)
   end
   let!(:other_employee_statements) do
-    create_list(:statement, 5, category: create(:category, company: company), user: other_employee)
+    create_list(:statement, 5, user: other_employee)
   end
-  let!(:category) { create(:category, company: company) }
 
   fields = %w[id merchant cost transaction_id performed_at created_at user category url]
 
@@ -100,21 +99,19 @@ RSpec.describe 'Statements' do
   end
 
   describe 'POST /api/v1/statements' do
-    context 'when authenticated user has roleemployee' do
-      let(:statements) { Statement.all }
-
+    context 'when authenticated user has role employee' do
       before do
         sign_in employee
         post api_v1_statements_url,
              params: {
-               statement: attributes_for(:statement, merchant: 'new merchant', category_id: category.id)
+               statement: attributes_for(:statement, merchant: 'new merchant', category: attributes_for(:category))
              }, as: :json
       end
 
       it 'creates a new Statement' do
         expect do
           post api_v1_statements_url,
-               params: { statement: attributes_for(:statement, category_id: category.id) }, as: :json
+               params: { statement: attributes_for(:statement) }, as: :json
         end.to change(Statement, :count).by(1)
       end
 
@@ -123,26 +120,30 @@ RSpec.describe 'Statements' do
       end
 
       it 'renders a JSON reponse with correct statements data' do
-        expected_data = formatted_statement(statements.last, fields)
+        expected_data = formatted_statement(Statement.last, fields)
 
         expect(response.body).to eq(expected_data.to_json)
       end
 
       it 'returns unsuccessful response status when invalid params' do
-        post api_v1_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil, performed_at: nil } }
+        post api_v1_statements_url, params: invalid_params, as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'renders a JSON reponse with invalid param message' do
-        post api_v1_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil, performed_at: nil } }
+        post api_v1_statements_url, params: invalid_params, as: :json
 
         expect(response.parsed_body['errors']).not_to be_empty
       end
 
       it 'does not creates a new Statement' do
+        invalid_params = { statement: { merchant: '', cost: -10, transaction_id: nil, performed_at: nil } }
+
         expect do
-          post api_v1_statements_url, params: { statement: attributes_for(:statement) }, as: :json
+          post api_v1_statements_url, params: invalid_params, as: :json
         end.not_to change(Statement, :count)
       end
     end
